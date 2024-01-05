@@ -66,6 +66,15 @@ router.get('/auth/google', passport.authenticate('google', {
     scope: ['profile', 'email']
     }));
 
+// Route for successfull google authentication
+
+router.get('/auth/callback', passport.authenticate('google', {
+    failureRedirect : '/'
+
+}), (req, res) => {
+    res.redirect('/');
+});
+
 router.post('/register',   async (req, res) =>{
     try {
         const hashedPassword = await bcrypt.hash(req.body.password, 10)
