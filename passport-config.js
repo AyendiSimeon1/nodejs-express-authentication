@@ -3,8 +3,11 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const bcrypt = require('bcryptjs');
 
 const GOOGLE_CLIENT_ID = '605060153601-t7vl849bm00f29gr94jhvdpgg77rbrab.apps.googleusercontent.com';
-const GOOGLE_CLIENT_SECRET = 'GOCSPX-cEtHR8SjHGdqhPRNFe0rwFcqEVa';
+const GOOGLE_CLIENT_SECRET = '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';
+
 const CALLBACKURL = 'http://localhost:3000/auth/google/callback';
+
+users = [];
 
 function initialize (passport, getUserByEmail, getUserById) {
     const authenticateUser = async(email, password, done) => {
@@ -25,20 +28,65 @@ function initialize (passport, getUserByEmail, getUserById) {
     }
     passport.use(new LocalStrategy ({ usernameField: 'email'},
     authenticateUser))
-    passport.serializeUser((user, done) =>  done(null, user.id))
-    passport.deserializeUser((id, done)=> { 
-        return done(null, getUserById(id))
-    })
+   
 
     passport.use(new GoogleStrategy({ 
         clientID: GOOGLE_CLIENT_ID,
         clientSecret: GOOGLE_CLIENT_SECRET,
         callbackURL: CALLBACKURL, 
     },
+    // (accessToken, refreshToken, profile, done) => {
+    //     users.find(user =>  googleId === user.id, (err, user) =>{
+    //       return done(err, user);
+    //     const newUser = new user ({
+    //         googleId: user.id,
+    //     });
+    //     newUser.save((err) => {
+    //         if(err) {
+    //             return done(err);
+    //         }
+    //     });
+    //     });
+    //     return done(null, user);
+    //   }
     (accessToken, refreshToken, profile, done) => {
-      // In a real application, you would typically store the user's information in a database.
-      return done(null, profile);
+        // Verify callback
+        // Find or create the user in the database
+        email => users.find(user => user.email === email),
+        users => users.find({ googleId: profile.id }, (err, existingUser) => {
+          if (err) {
+            return done(err);
+          }
+    
+          if (existingUser) {
+            // User already exists, return the user
+            return done(null, existingUser);
+          }
+    
+          // User doesn't exist, create a new user
+          const newUser = new User({
+            googleId: profile.id,
+            // set other user properties based on the profile...
+          });
+    
+          newUser.save((err) => {
+            if (err) {
+              return done(err);
+            }
+    
+            // Return the newly created user
+            return done(null, newUser);
+          });
+        });
     }
+    
   ));
+
+
+  passport.serializeUser((user, done) =>  done(null, user.id))
+  passport.deserializeUser((id, done)=> { 
+      return done(null, getUserById(id))
+  })
+
 }
 module.exports = initialize

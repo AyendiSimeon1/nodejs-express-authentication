@@ -14,7 +14,8 @@ const path = require('path');
 initializePassport(
     passport,
     email => users.find(user => user.email === email),
-    id => users.find(user => user.id === id)
+    id => users.find(user => user.id === id),
+    
     )
 
     router.use(flash());
@@ -31,9 +32,7 @@ initializePassport(
     router.use(passport.session());
     router.use(methodOverride('_method'));
     
- router.use(express.urlencoded({ extended:false }));
-// //router.set('views', path.join(__dirname, 'views'));
-// //router.set('view engine', 'ejs'); // Example if you're using EJS
+router.use(express.urlencoded({ extended:false }));
 router.use(express.urlencoded({ extended:false }));
 
 const users = []
