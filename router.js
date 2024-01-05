@@ -61,6 +61,11 @@ router.get('/register', checkNotAuthenticated, (req, res) =>{
     res.render('register');
 });
 
+// Route to start the Google oauth process
+router.get('/auth/google', passport.authenticate('google', {
+    scope: ['profile', 'email']
+    }));
+
 router.post('/register',   async (req, res) =>{
     try {
         const hashedPassword = await bcrypt.hash(req.body.password, 10)
