@@ -41,7 +41,7 @@ function checkAuthentication (req, res, next) {
         return next()
     } else {
         res.redirect('/login');
-        // comment
+        // comment a
     }
 }
 
