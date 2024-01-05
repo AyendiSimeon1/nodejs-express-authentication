@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const GoogleStrategy = require('passport-google-strategy').Strategy;
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const flash = require('express-flash');
@@ -100,5 +101,6 @@ function checkNotAuthenticated(req, res, next) {
     return next()
 }
 }
+
 
 module.exports = router;

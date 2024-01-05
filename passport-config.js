@@ -25,6 +25,14 @@ function initialize (passport, getUserByEmail, getUserById) {
         return done(null, getUserById(id))
     })
 
+    passport.user(new GoogleStrategy({ 
+        clientID: '',
+        clientSecret: '',
+        callbackURL: '', 
+    },
+        function(accessToken, refreshToken)
+    ));
+
 }
 
 module.exports = initialize
