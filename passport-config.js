@@ -52,32 +52,14 @@ function initialize (passport, getUserByEmail, getUserById) {
     (accessToken, refreshToken, profile, done) => {
         // Verify callback
         // Find or create the user in the database
-        email => users.find(user => user.email === email),
-        users => users.find({ googleId: profile.id }, (err, existingUser) => {
-          if (err) {
-            return done(err);
-          }
+        // email => users.find(user => user.email === email),
+        // users => users.find({ googleId: profile.id }, (err, existingUser) => {
+        //   if (err) {
+        //     return done(err);
+        //   }
     
-          if (existingUser) {
-            // User already exists, return the user
-            return done(null, existingUser);
-          }
-    
-          // User doesn't exist, create a new user
-          const newUser = new User({
-            googleId: profile.id,
-            // set other user properties based on the profile...
-          });
-    
-          newUser.save((err) => {
-            if (err) {
-              return done(err);
-            }
-    
-            // Return the newly created user
-            return done(null, newUser);
-          });
-        });
+       
+        // });
     }
     
   ));

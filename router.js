@@ -61,13 +61,22 @@ router.get('/register', checkNotAuthenticated, (req, res) =>{
 });
 
 // Route to start the Google oauth process
-router.get('/auth/google', passport.authenticate('google', {
-    scope: ['profile', 'email']
-    }));
+// router.get('/auth/google', passport.authenticate('google', {
+//     scope: ['profile', 'email']
+//     }));
 
+    router.get('/auth/google', (req, res, next) => {
+        passport.authenticate('google', { scope: ['profile', 'email'] }, (err, user, info) => {
+          if (err) {
+            // Handle the error
+            return res.status(500).send(err);
+          }
+          // Proceed with authentication
+        })(req, res, next);
+      });
 // Route for successfull google authentication
 
-router.get('/auth/google/callback', checkNotAuthenticated, passport.authenticate('google', {
+router.get('/auth/google/callback',  passport.authenticate('google', {
     failureRedirect : '/login'
 
 }), (req, res) => {
