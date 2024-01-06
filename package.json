@@ -19,6 +19,7 @@
     "express-flash": "^0.0.2",
     "express-session": "^1.17.3",
     "method-override": "^3.0.0",
+    "nodemailer": "^6.9.8",
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
     "passport-google-strategy": "^1.0.3",
