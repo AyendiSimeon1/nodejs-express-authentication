@@ -10,7 +10,7 @@ const bcrypt = require('bcryptjs');
 const methodOverride = require('method-override');
 const initializePassport = require('./passport-config');
 const path = require('path');
-const nodemailer = require('nodemailer');
+const { sendConfirmationEmail } = require('./email-config');
 
 initializePassport(
     passport,
