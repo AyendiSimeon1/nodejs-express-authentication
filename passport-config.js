@@ -60,10 +60,13 @@ function initialize (passport, getUserByEmail, getUserById) {
   ));
 
 
-  passport.serializeUser((user, done) =>  done(null, user.id))
+  passport.serializeUser((user, done) =>  done(null, user.id, user.googleId))
   passport.deserializeUser((id, done)=> { 
-      return done(null, getUserById(id))
-  })
+    const user = users.find(u => u.googleId === id);
+      return done(null, getUserById(id), user)
+  });
+
+ 
 
 }
 module.exports = initialize
