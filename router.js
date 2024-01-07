@@ -117,6 +117,7 @@ router.post('/register',   async (req, res) =>{
         // });
         // Some
         //A text comment
+        //Now is the time
         
         res.render('login');
     } catch {
