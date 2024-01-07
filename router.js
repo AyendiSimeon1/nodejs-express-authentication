@@ -85,14 +85,39 @@ router.get('/auth/google/callback',  passport.authenticate('google', {
 });
 
 router.post('/register',   async (req, res) =>{
+    // passport.authenticate('local-signup', (err, user, info) => {
+    //     if(err) {
+    //         return next(err);
+    //     } else (!user) {
+    //         return res.status(400).json({ message:info.message});
+    //     }
+         
+    //     users.confirmationCode = confirmationCode;
+
+
+
     try {
-        const hashedPassword = await bcrypt.hash(req.body.password, 10)
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+        const confirmationCode = '44993333';
         users.push({
             id: Date.now().toString(),
             email: req.body.email,
             password: hashedPassword,
+            confirmationCode: confirmationCode,
             
         });
+        // const userEmail = users.email;
+        // console.log('This is your user email' + userEmail);
+        // sendConfirmationEmail('mrayendi1@gmail.com', confirmationCode, (err, info) => {
+        //     if(err) {
+        //         console.log('Error:', err);
+        //     } else {
+        //         console.log('Successful:', info.response);
+        //     }
+        // });
+        
+        //A text comment
+        
         res.render('login');
     } catch {
         res.redirect('/register')

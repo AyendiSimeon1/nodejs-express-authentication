@@ -35,31 +35,10 @@ function initialize (passport, getUserByEmail, getUserById) {
         clientSecret: GOOGLE_CLIENT_SECRET,
         callbackURL: CALLBACKURL, 
     },
-    // (accessToken, refreshToken, profile, done) => {
-    //     users.find(user =>  googleId === user.id, (err, user) =>{
-    //       return done(err, user);
-    //     const newUser = new user ({
-    //         googleId: user.id,
-    //     });
-    //     newUser.save((err) => {
-    //         if(err) {
-    //             return done(err);
-    //         }
-    //     });
-    //     });
-    //     return done(null, user);
-    //   }
-    (accessToken, refreshToken, profile, done) => {
-        // Verify callback
-        // Find or create the user in the database
-        // email => users.find(user => user.email === email),
-        // users => users.find({ googleId: profile.id }, (err, existingUser) => {
-        //   if (err) {
-        //     return done(err);
-        //   }
-    
-       
-        // });
+    function(request, accessToken, refreshToken, profile, done) {
+        users.findOrCreate({ googleId: id}, function(err, user){
+            return done(err, user)
+        });
     }
     
   ));
