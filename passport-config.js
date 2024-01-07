@@ -7,7 +7,21 @@ const GOOGLE_CLIENT_SECRET = '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';
 
 const CALLBACKURL = 'http://localhost:3000/auth/google/callback';
 
-users = [];
+const users = [];
+
+function findOrCreate(userCritereia, newUser) {
+    const user = users.find(u => u.googleId === userCritereia.googleId);
+
+    if (user) {
+        return user;
+    } else {
+        console.log('User Sign in was not successful');
+    }
+    users.push(newUser);
+    return newUser;
+}
+
+
 
 function initialize (passport, getUserByEmail, getUserById) {
     const authenticateUser = async(email, password, done) => {
@@ -35,10 +49,12 @@ function initialize (passport, getUserByEmail, getUserById) {
         clientSecret: GOOGLE_CLIENT_SECRET,
         callbackURL: CALLBACKURL, 
     },
-    function(request, accessToken, refreshToken, profile, done) {
-        users.findOrCreate({ googleId: id}, function(err, user){
-            return done(err, user)
-        });
+    function(accessToken, refreshToken, profile, done) {
+        const user = findOrCreate(
+            { googleId: profile.id }, 
+            { googleId: profile.id, name: profile.displayName }
+        );
+        done(null, user);
     }
     
   ));
