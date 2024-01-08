@@ -66,7 +66,6 @@ function initialize (passport, getUserByEmail, getUserById) {
       return done(null, getUserById(id), user)
   });
 
- 
-
 }
+// a coment
 module.exports = initialize
