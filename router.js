@@ -15,10 +15,8 @@ const { sendConfirmationEmail } = require('./email-config');
 initializePassport(
     passport,
     email => users.find(user => user.email === email),
-    id => users.find(user => user.id === id),
-    
+    id => users.find(user => user.id === id),  
     )
-
     router.use(flash());
     router.use(express.static(path.join(__dirname, 'public')));
     router.use(session({ 
@@ -37,8 +35,6 @@ router.use(express.urlencoded({ extended:false }));
 router.use(express.urlencoded({ extended:false }));
 
 const users = []
-
-
 router.get('/', checkAuthentication, (req, res) => {
     console.log(req.user.email);
     res.render('home', { user : req.user.email } );
@@ -94,8 +90,6 @@ router.post('/register',   async (req, res) =>{
          
     //     users.confirmationCode = confirmationCode;
 
-
-
     try {
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
         const confirmationCode = '44993333';
@@ -144,12 +138,9 @@ function checkNotAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         res.redirect('/');
 
-
     } else {
         console.log('There was an error');
     return next()
 }
 }
-
-
 module.exports = router;
