@@ -2,7 +2,7 @@
 
 Welcome to **Express-User-Authentication**! This is a sleek, professional, and robust user authentication system built using NodeJS, Express, Passport and OAuth.
 
-## Features 🌟
+## Features 
 
 Express Framework: Fast, unopinionated, minimalist web framework for Node.js.
 
